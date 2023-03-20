@@ -21,3 +21,9 @@ GPUドライバーのインストールやdockerにGPUを認識させるため�
 sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
 
 --gpus allでGPUが使えるようになる
+
+### GUIを使う場合
+
+sudo ./run.sh
+
+GPUを使わない場合はrun.sh内の --runtime_nvidia を消す
