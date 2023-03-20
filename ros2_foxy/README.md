@@ -26,4 +26,6 @@ sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
 
 sudo ./run.sh
 
+run.sh内ではイメージの名前が「ros2」になっているので、自分が作成したイメージの名前に書き換えてください
+
 GPUを使わない場合はrun.sh内の --runtime_nvidia を消す
