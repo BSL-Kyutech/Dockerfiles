@@ -32,5 +32,4 @@ RUN mkdir -p ~/ros2_ws/src
 WORKDIR ~/ros2_ws/
 RUN colcon build
 
-ENV DISPLAY host.docker.internal:0.0
 RUN apt-get install x11-apps -y
