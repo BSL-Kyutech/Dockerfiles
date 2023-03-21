@@ -29,7 +29,7 @@ RUN apt-get install ros-foxy-desktop -y
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 RUN apt-get install python3-colcon-common-extensions -y
 RUN mkdir -p ~/ros2_ws/src
-WORKDIR ~/ros2_ws/
+WORKDIR /root/ros2_ws/
 RUN colcon build
 
 RUN apt-get install x11-apps -y
