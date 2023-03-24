@@ -6,7 +6,8 @@ sudo docker build -t 「イメージの名前」 .
 
 ## コンテナを作成して中に入る
 
-GPUドライバーのインストールやdockerにGPUを認識させるための環境構築が必要
+事前にGPUドライバーのインストールやdockerにGPUを認識させるための環境構築が必要
+([参考](https://qiita.com/MkConan/items/787b69cd8cbfe7d7cb88))
 
 sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
 
@@ -15,9 +16,3 @@ sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
 この方法はポートの競合が起こるので複数のコンテナを使うときはあまりよくないかも
 
 --gpus allでGPUが使えるようになる
-
-### GUIを使う場合
-
-sudo ./run.sh
-
-run.sh内ではイメージの名前が「ros2」になっているので、自分が作成したイメージの名前に書き換えてください
