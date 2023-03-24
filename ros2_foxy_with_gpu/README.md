@@ -1,13 +1,14 @@
+事前にGPUドライバーのインストールやdockerにGPUを認識させるための環境構築が必要
+([参考](https://qiita.com/MkConan/items/787b69cd8cbfe7d7cb88))
+
 ## イメージの作成
 
-このディレクトリに入って以下を実行
+必要なcudaのバージョンに応じてDockerfileのベースになるイメージを変更して以下を実行
 
 sudo docker build -t 「イメージの名前」 .
 
 ## コンテナを作成して中に入る
 
-事前にGPUドライバーのインストールやdockerにGPUを認識させるための環境構築が必要
-([参考](https://qiita.com/MkConan/items/787b69cd8cbfe7d7cb88))
 
 sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
 
