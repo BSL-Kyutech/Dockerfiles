@@ -25,7 +25,6 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
 RUN echo "deb [ arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg ] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
 RUN apt-get update
 RUN apt-get install ros-foxy-desktop -y
-RUN echo "source /opt/ros/foxy/setup.sh" >> ~/.bashrc
 RUN apt-get install python3-colcon-common-extensions -y
 RUN mkdir -p ~/ros2_ws/src
 WORKDIR /root/ros2_ws/
@@ -52,3 +51,4 @@ RUN rosdep init
 RUN rosdep update
 RUN rosdep install -i --from-path src --rosdistro foxy -y
 RUN . /opt/ros/foxy/setup.sh && colcon build
+RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
