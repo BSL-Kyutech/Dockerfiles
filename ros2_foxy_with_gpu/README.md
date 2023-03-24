@@ -3,17 +3,23 @@
 
 ## イメージの作成
 
-必要なcudaのバージョンに応じてDockerfileのベースになるイメージを変更して以下を実行
+必要なcudaのバージョンに応じてDockerfileのFROMに書いてあるイメージを変更して以下を実行
 
-sudo docker build -t 「イメージの名前」 .
+`$ sudo docker build -t イメージ名 .`
 
 ## コンテナを作成して中に入る
 
 
-sudo docker run -it --net host --gpus all 「イメージの名前」 /bin/bash
+`$ sudo docker run -it --net host --gpus all イメージ名 /bin/bash`
 
---net hostで外部と通信できるようになる
+### オプションの説明
 
-この方法はポートの競合が起こるので複数のコンテナを使うときはあまりよくないかも
+- `--net host`
 
---gpus allでGPUが使えるようになる
+    - コンテナの外と通信できるようになるオプション
+
+    - このオプションがついたコンテナを複数同時に動かすとポートの競合が起こってバグるかも
+
+- `--gpus all`
+
+    - GPUが使えるようになるオプション

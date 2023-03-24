@@ -2,18 +2,27 @@
 
 このディレクトリに入って以下を実行
 
-sudo docker build -t 「イメージの名前」 .
+`$ sudo docker build -t イメージ名 .`
 
 ## コンテナを作成して中に入る
 
-sudo docker run -it --net host --privileged --volume=/dev:/dev 「イメージの名前」 /bin/bash
+`$ sudo docker run -it --net host --privileged --volume=/dev:/dev イメージ名 /bin/bash`
 
---net hostで外部と通信できるようになる
+- `--net host`
 
-この方法はポートの競合が起こるので複数のコンテナを使うときはあまりよくないかも
+    - コンテナの外と通信できるようになるオプション
 
---privilegedでデバイスと接続できるようになる
+    - このオプションがついたコンテナを複数同時に動かすとポートの競合が起こってバグるかも
 
---volume=/dev:/devでデバイスファイルを共有
 
-WSLにおいてLinuxと同じようにデバイスファイルが機能してるのか知らないのでWindowsでは動かないかもしれない
+- `--privileged`
+
+    - コンテナに特権を与えるオプション
+
+    - このオプションはセキュリティ的によくない
+
+    - 本当は--deviceを使った方がいい
+
+- `--volume=/dev:/dev`
+
+    - ホスト側のデバイスファイルをコンテナと共有するオプション
