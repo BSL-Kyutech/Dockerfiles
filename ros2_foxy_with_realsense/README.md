@@ -14,6 +14,6 @@ sudo docker run -it --net host --privileged --volume=/dev:/dev 「イメージ�
 
 --privilegedでデバイスと接続できるようになる
 
---volume=/dev:/devでデバイスファイルをdockerと共有
+--volume=/dev:/devでデバイスファイルを共有
 
 WSLにおいてLinuxと同じようにデバイスファイルが機能してるのか知らないのでWindowsでは動かないかもしれない
