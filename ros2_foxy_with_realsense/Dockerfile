@@ -51,6 +51,7 @@ RUN groupadd -g $GID $GROUPNAME
 RUN useradd -m -u $UID -g $GID $USERNAME
 RUN mkdir -p ~/ros2_ws/src
 RUN chown -R $USERNAME ~/ros2_ws
+RUN usermod -a -G video $USERNAME
 USER $USERNAME
 WORKDIR /home/$USERNAME/ros2_ws/src
 RUN git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
@@ -62,3 +63,4 @@ RUN rosdep install -i --from-path src --rosdistro foxy -y
 USER $USERNAME
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+USER root
