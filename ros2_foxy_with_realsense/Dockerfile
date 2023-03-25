@@ -26,9 +26,6 @@ RUN echo "deb [ arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/
 RUN apt-get update
 RUN apt-get install ros-foxy-desktop -y
 RUN apt-get install python3-colcon-common-extensions -y
-RUN mkdir -p ~/ros2_ws/src
-WORKDIR /root/ros2_ws/
-RUN colcon build
 
 RUN apt-get install x11-apps -y
 
@@ -43,12 +40,25 @@ RUN apt-get install -y librealsense2-dev
 RUN apt-get install -y librealsense2-dbg
 RUN apt-get install -y v4l-utils
 
-WORKDIR /root/ros2_ws/src/
-RUN git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
-WORKDIR /root/ros2_ws/
 RUN apt install python3-rosdep -y
+
+# ユーザー追加+ワークスペース作成
+ARG UID=1000
+ARG USERNAME=user
+ARG GID=1000
+ARG GROUPNAME=user
+RUN groupadd -g $GID $GROUPNAME
+RUN useradd -m -u $UID -g $GID $USERNAME
+RUN mkdir -p ~/ros2_ws/src
+RUN chown -R $USERNAME ~/ros2_ws
+USER $USERNAME
+WORKDIR /home/$USERNAME/ros2_ws/src
+RUN git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
+WORKDIR /home/$USERNAME/ros2_ws
+USER root
 RUN rosdep init
 RUN rosdep update
 RUN rosdep install -i --from-path src --rosdistro foxy -y
+USER $USERNAME
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc

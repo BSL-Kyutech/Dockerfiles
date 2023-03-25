@@ -1,0 +1,22 @@
+version: '3'
+services:
+  ros:
+    build:
+      context: .
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    network_mode: "host"
+    tty: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./src:/home/user/ros2_ws/src
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
