@@ -29,13 +29,13 @@
 
     $ git clone git@github.com:BSL-Kyutech/Dockerfiles.git
 
-### 3. プロジェクト用のディレクトリに必要なファイルを移動
+### 3. 必要なファイルをコピー
 
-    $ mv Dockerfiles/ros2_foxy_without_gpu/* [project]
+    $ cp -a Dockerfiles/ros2_foxy_without_gpu/. [project]
     (ros2_foxy_without_gpuを使う場合の例)
 
     $ rm -rf Dockerfiles
-    残ったディレクトリは使わないので削除してOK
+    このあとはもう使わないので削除してOK
 
 ### 4. イメージ作成, コンテナ作成, コンテナのバックグラウンド起動
     $ sudo docker-comopse up -d --build
@@ -67,11 +67,11 @@
     実装が終わったらコンテナに入ってcolcon build
 
     $ sudo docker-compose exec ros bash
-
-    $ . install/local.bash
+    $ colcon build
 
 ### 8. 動かす
 
+    $ . install/local.bash
     $ ros2 run [mypackage] [myprogram]
 
 
