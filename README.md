@@ -21,7 +21,7 @@
 
 ### 1. プロジェクト用のディレクトリを作成する
 
-    $ mkdir [project]
+    $ mkdir -p [project]/src
 
     [project]の部分は適当な名前にしてください
 
