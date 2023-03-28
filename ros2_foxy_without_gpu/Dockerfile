@@ -32,9 +32,8 @@ ARG GID=1000
 ARG GROUPNAME=user
 RUN groupadd -g $GID $GROUPNAME
 RUN useradd -m -u $UID -g $GID $USERNAME
-RUN mkdir -p ~/ros2_ws/src
-RUN chown -R $USERNAME ~/ros2_ws
 USER $USERNAME
+RUN mkdir -p ~/ros2_ws/src
 WORKDIR /home/$USERNAME/ros2_ws
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
