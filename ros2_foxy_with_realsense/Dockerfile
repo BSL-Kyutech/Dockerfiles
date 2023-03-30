@@ -49,9 +49,9 @@ ARG GID=1000
 ARG GROUPNAME=user
 RUN groupadd -g $GID $GROUPNAME
 RUN useradd -m -u $UID -g $GID $USERNAME
+RUN usermod -a -G video $USERNAME
 USER $USERNAME
 RUN mkdir -p ~/ros2_ws/src
-RUN usermod -a -G video $USERNAME
 WORKDIR /home/$USERNAME/ros2_ws/src
 RUN git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
 WORKDIR /home/$USERNAME/ros2_ws
