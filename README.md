@@ -38,13 +38,13 @@
     このあとはもう使わないので削除してOK
 
 ### 4. イメージ作成, コンテナ作成, コンテナのバックグラウンド起動
-    $ sudo docker-comopse up -d --build
+    $ sudo docker-compose up -d --build
 
     30分~1時間かかる
 
 ### 5. コンテナ内でros2 pkg create
 
-    $ suco docker-compose exec ros bash
+    $ sudo docker-compose exec ros bash
     $ cd src
     $ ros2 pkg create --build-type ament_python [mypackage]
 
