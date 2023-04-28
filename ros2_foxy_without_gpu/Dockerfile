@@ -1,3 +1,4 @@
+
 # 必要となるubuntuのバージョンに応じてベースのイメージを変更してください
 FROM ubuntu:20.04
 
@@ -24,6 +25,7 @@ RUN echo "deb [ arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/
 RUN apt-get update
 RUN apt-get install ros-foxy-desktop -y
 RUN apt-get install python3-colcon-common-extensions -y
+RUN apt-get install ros-foxy-rosbridge-suite -y
 
 # ユーザー追加+ワークスペース作成
 ARG UID=1000
@@ -37,3 +39,4 @@ RUN mkdir -p ~/ros2_ws/src
 WORKDIR /home/$USERNAME/ros2_ws
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+
