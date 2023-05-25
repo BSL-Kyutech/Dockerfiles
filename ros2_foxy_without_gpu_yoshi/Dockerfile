@@ -48,6 +48,6 @@ COPY .netrc $WS
 COPY requirements.txt $WS
 
 # install python libraries
-RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
+#RUN pip install --upgrade pip
+#RUN pip install --upgrade setuptools
 #RUN pip3 install -r requirements.txt
