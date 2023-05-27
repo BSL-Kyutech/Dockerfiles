@@ -42,6 +42,11 @@ WORKDIR $WS
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
+# stop alert bell
+RUN touch ~/.inputrc
+RUN echo "# add quit beep sound" >> ~/.inputrc
+RUN echo "set bell-style none" >> ~/.inputrc
+
 COPY .tmux.conf /home/$USRNAME
 COPY .netrc /home/$USERNAME
 COPY requirements.txt $WS
