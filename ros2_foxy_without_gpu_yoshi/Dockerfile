@@ -44,7 +44,7 @@ RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
 # stop alert bell
 RUN touch ~/.inputrc
-RUN echo "# add quit beep sound" >> ~/.inputrc
+RUN echo "# quit beep sound" >> ~/.inputrc
 RUN echo "set bell-style none" >> ~/.inputrc
 
 COPY .tmux.conf /home/$USRNAME
