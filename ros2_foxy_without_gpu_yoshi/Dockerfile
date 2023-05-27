@@ -24,7 +24,7 @@ RUN apt-get update
 RUN apt-get install ros-foxy-desktop -y
 RUN apt-get install python3-colcon-common-extensions -y
 RUN apt-get install ros-foxy-rosbridge-suite -y
-RUN apt-get install git tmux vim python3.9 curl -y
+RUN apt-get install git tmux vim python3.9 python3-pip curl -y
 
 # ユーザー追加+ワークスペース作成
 ARG UID=1000
@@ -38,16 +38,15 @@ RUN groupadd -g $GID $GROUPNAME && \
     echo $USERNAME:$PASSWORD | chpasswd && \
     echo "$USERNAME  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER $USERNAME
-RUN mkdir -p ~/ros2_ws/src
 WORKDIR $WS
 RUN . /opt/ros/foxy/setup.sh && colcon build
 RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
 
-COPY .tmux.conf $WS
-COPY .netrc $WS
+COPY .tmux.conf /home/$USRNAME
+COPY .netrc /home/$USERNAME
 COPY requirements.txt $WS
 
 # install python libraries
-#RUN pip install --upgrade pip
-#RUN pip install --upgrade setuptools
-#RUN pip3 install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --upgrade setuptools
+RUN pip3 install -r requirements.txt
