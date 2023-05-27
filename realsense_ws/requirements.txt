@@ -4,6 +4,6 @@ matplotlib
 pandas
 scipy
 # 2022/12/11 version torch for torch 1.13.0 and cuda 11.7
-torch
-torchvision
-torchaudio
+#torch
+#torchvision
+#torchaudio
