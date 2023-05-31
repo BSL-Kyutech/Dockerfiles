@@ -11,5 +11,5 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - ./src:/home/user/ros2_ws/src
+      - ./ros2_ws:/home/user/ros2_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw

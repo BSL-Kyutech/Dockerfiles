@@ -47,7 +47,7 @@ RUN touch ~/.inputrc
 RUN echo "# quit beep sound" >> ~/.inputrc
 RUN echo "set bell-style none" >> ~/.inputrc
 
-COPY .tmux.conf /home/$USRNAME
+COPY .tmux.conf /home/$USERNAME
 COPY .netrc /home/$USERNAME
 COPY requirements.txt $WS
 
