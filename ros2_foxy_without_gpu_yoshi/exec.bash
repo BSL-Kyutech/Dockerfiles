@@ -1,1 +1,1 @@
-docker-compose exec ros bash
+docker compose exec ros bash
