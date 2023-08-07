@@ -44,6 +44,7 @@ RUN pip3 install --no-cache-dir \
     jupyterlab \
     #nodejs \
     jupyterlab-lsp \
+    'python-lsp-server[all]' \
     lckr-jupyterlab-variableinspector \
     jupyterlab_code_formatter \
     jupyterlab-git \
