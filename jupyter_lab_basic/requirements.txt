@@ -1,0 +1,10 @@
+# +++ Basic Libraries for Jupyter Lab +++
+numpy
+scipy
+matplotlib
+pandas
+tqdm
+scikit-learn
+seaborn
+
+# +++ ADD your custom libraries +++
