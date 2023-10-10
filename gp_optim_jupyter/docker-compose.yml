@@ -22,7 +22,8 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - ./src:/home/user/gp_optim_jupyter/src
+      - /home/$USERNAME:/home/user
+      - ./src:/home/user/jupyter_ws/src
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     entrypoint: >
         jupyter-lab
@@ -31,5 +32,5 @@ services:
         --allow-root
         --port=8888
         --NotebookApp.token='hoge'
-        --notebook-dir=/home/user/gp_optim_jupyter
+        --notebook-dir=/home/user/jupyter_ws
     

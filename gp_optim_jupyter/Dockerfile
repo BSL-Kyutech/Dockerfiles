@@ -14,18 +14,16 @@ RUN apt-get install git python3.9 python3-pip vim curl -y
 # libraries to use GUI
 RUN apt-get install x11-apps -y
 
-# マウントされたディレクトリの扱いに関するパーミッション対策
-# ユーザID/nameとグループID/nameが同じ値になるようにする
-#ARG UID=1000
+# add user and group
 ARG USERNAME=user
-#ARG GID=1000
-#ARG GROUPNAME=user
-#RUN groupadd -g $GID $GROUPNAME
-#RUN useradd -m -u $UID -g $GID $USERNAME
-#USER $USERNAME
-
+ARG GROUPNAME=user
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -g $GID $GROUPNAME
+RUN useradd -m -g $UID -g $GID $USERNAME
 # make workspace
-ARG WS=/home/$USERNAME/gp_optim_jupyter
+USER root
+ARG WS=/home/$USERNAME/gp_optim
 WORKDIR $WS
 
 # copy config files in home directory
@@ -34,27 +32,26 @@ COPY requirements.txt $WS
 
 # install python libraries
 RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
-#RUN pip3 install -r requirements.txt
+RUN pip3 install --upgrade setuptools
 
-# install jupyter
+# install jupyter lab and minimum required extensions (see below)
+# https://qiita.com/nokonoko_1203/items/edd010616a74468ea531
 RUN pip3 install --no-cache-dir \
     black \
     jupyterlab \
-    #jupyterlab code formatter \
+    #nodejs \
+    jupyterlab-lsp \
+    'python-lsp-server[all]' \
+    lckr-jupyterlab-variableinspector \
+    jupyterlab_code_formatter \
     jupyterlab-git \
-    #lckr-jupyterlab-variableinspector \
-    #jupyterlab widgets \
-    #ipywidgets \
-    #import-ipynb
-    notebook
+    jupyterlab_widgets \
+    ipywidgets \
+    import-ipynb
+    #notebook
     
-
 # install basic python packages
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# install custom python packages
-#RUN pip install --no-cache-dir
-
-
-#USER root
+# change user
+USER $USERNAME
