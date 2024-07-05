@@ -1,0 +1,19 @@
+tqdm
+numpy
+matplotlib
+pandas
+scipy
+rosbags
+opencv-python
+
+# 2022/12/11 version torch for torch 1.13.0 and cuda 11.7
+#torch
+#torchvision
+#torchaudio
+
+# sklearn
+#scikit-learn
+
+# optuna
+#optuna
+#cmaes
