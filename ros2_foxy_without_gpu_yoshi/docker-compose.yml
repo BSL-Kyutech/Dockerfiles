@@ -1,0 +1,15 @@
+version: '3'
+services:
+  ros:
+    build:
+      context: .
+      args:
+        - UID=${UID}
+        - GID=${GID}
+    network_mode: "host"
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./ros2_ws:/home/user/ros2_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
