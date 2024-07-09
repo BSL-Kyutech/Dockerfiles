@@ -1,4 +1,3 @@
-
 # 必要となるubuntu, cudaのバージョンに応じてベースのイメージを変更してください
 FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
 
@@ -48,10 +47,9 @@ RUN echo "# quit beep sound" >> ~/.inputrc
 RUN echo "set bell-style none" >> ~/.inputrc
 
 COPY .tmux.conf /home/$USERNAME
-COPY .netrc /home/$USERNAME
 COPY requirements.txt $WS
 
 # install python libraries
-RUN pip install --upgrade pip
-RUN pip install --upgrade setuptools
-RUN pip3 install --no-cache-dir -r requirements.txt
+#RUN pip install --upgrade pip
+#RUN pip install --upgrade setuptools
+#RUN pip3 install --no-cache-dir -r requirements.txt

@@ -24,16 +24,14 @@ RUN apt-get install curl gnupg lsb-release -y && \
     apt-get install -y \
         ros-humble-desktop \
         python3-colcon-common-extensions \
-        ros-humble-rosbridge-suite 
+        ros-humble-rosbridge-suite && \
     apt-get install -y tmux vim python3.9 python3-pip curl
 
 # ユーザー追加+ワークスペース作成
-ARG UID=1000
-ARG USERNAME=user
-ARG GID=1000
-ARG GROUPNAME=user
-ARG PASSWORD=b10Inpsired
-ARG WS=/home/$USERNAME/ros2_ws
+# load arguments from .env and docker-compose.yml
+ARG UID GID USERNAME GROUPNAME PASSWORD
+RUN echo "${UID}, ${GID}, ${USERNAME}, ${GROUPNAME}, ${PASSWORD}"
+ARG WS=/home/$USERNAME/dev_ws
 RUN groupadd -g $GID $GROUPNAME && \
     useradd -m -s /bin/bash -u $UID -g $GID -G sudo $USERNAME && \
     echo $USERNAME:$PASSWORD | chpasswd && \
@@ -48,8 +46,9 @@ RUN touch ~/.inputrc && \
     echo "# quit beep sound" >> ~/.inputrc && \
     echo "set bell-style none" >> ~/.inputrc
 
+# copy setup files
 COPY .tmux.conf /home/$USERNAME
-COPY .netrc /home/$USERNAME
+#COPY requirements.txt /home/$USERNAME
 COPY requirements.txt $WS
 
 # install pip

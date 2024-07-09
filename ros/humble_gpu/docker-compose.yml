@@ -1,6 +1,6 @@
 version: '3'
 services:
-  humble_gpu:
+  ros:
     build:
       context: .
       args:
@@ -19,5 +19,5 @@ services:
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - ./ros2_ws:/home/user/ros2_ws
+      - ./dev_ws:/home/user/dev_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
