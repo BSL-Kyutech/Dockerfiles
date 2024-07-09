@@ -6,6 +6,9 @@ services:
       args:
         - UID=${UID}
         - GID=${GID}
+        - USERNAME=${USERNAME}
+        - GROUPNAME=${GROUPNAME}
+        - PASSWORD=${PASSWORD}
     network_mode: "host"
     tty: true
     deploy:
@@ -14,10 +17,9 @@ services:
           devices:
             - driver: nvidia
               device_ids: ['0']
-              #count: 1
               capabilities: [gpu]
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - ./dev_ws:/home/user/dev_ws
+      - ./dev_ws:/home/${USERNAME}/dev_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
