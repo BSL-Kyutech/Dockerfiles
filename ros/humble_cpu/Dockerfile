@@ -30,7 +30,6 @@ RUN apt-get install curl gnupg lsb-release -y && \
 # ユーザー追加+ワークスペース作成
 # load arguments from .env and docker-compose.yml
 ARG UID GID USERNAME GROUPNAME PASSWORD
-RUN echo "${UID}, ${GID}, ${USERNAME}, ${GROUPNAME}, ${PASSWORD}"
 ARG WS=/home/$USERNAME/dev_ws
 RUN groupadd -g $GID $GROUPNAME && \
     useradd -m -s /bin/bash -u $UID -g $GID -G sudo $USERNAME && \
