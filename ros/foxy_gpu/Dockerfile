@@ -10,35 +10,53 @@ RUN apt-get update && apt-get install -y tzdata
 ENV TZ=Asia/Tokyo 
 
 # パッケージの更新
-RUN apt-get update && apt-get upgrade -y
-
-# gitのインストール
-RUN apt-get install git -y
-
-# PyTorchのためのライブラリをインストール
-RUN apt-get install -y python3 python3-pip
-RUN pip3 install torch torchvision
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install sudo -y
 
 # GUIを使うためのライブラリ
 RUN apt-get install x11-apps -y
 
+# python関連のライブラリ
+RUN apt-get install -y tmux vim python3.9 python3-pip curl
+
+
 # ros2インストール
-RUN apt-get install curl gnupg lsb-release -y
-RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-RUN echo "deb [ arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg ] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list
-RUN apt-get update
-RUN apt-get install ros-foxy-desktop -y
-RUN apt-get install python3-colcon-common-extensions -y
+RUN apt-get install curl gnupg lsb-release -y && \
+    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [ arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg ] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros2.list && \
+    apt-get update && \
+    apt-get install -y \
+        ros-foxy-desktop \
+        python3-colcon-common-extensions \
+        ros-foxy-rosbridge-suite
 
 # ユーザー追加+ワークスペース作成
-ARG UID=1000
-ARG USERNAME=user
-ARG GID=1000
-ARG GROUPNAME=user
-RUN groupadd -g $GID $GROUPNAME
-RUN useradd -m -u $UID -g $GID $USERNAME
+# load arguments from .env and docker-compose.yml
+ARG UID GID USERNAME GROUPNAME PASSWORD
+ARG WS=/home/$USERNAME/dev_ws
+# グループ・ユーザーIDの再設定
+RUN groupadd -g $GID $GROUPNAME && \
+    useradd -m -s /bin/bash -u $UID -g $GID -G sudo $USERNAME && \
+    echo $USERNAME:$PASSWORD | chpasswd && \
+    echo "$USERNAME  ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER $USERNAME
-RUN mkdir -p ~/ros2_ws/src
-WORKDIR /home/$USERNAME/ros2_ws
-RUN . /opt/ros/foxy/setup.sh && colcon build
-RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+WORKDIR $WS
+# ros2 起動コマンドをbash起動時に実行
+RUN . /opt/ros/foxy/setup.sh && colcon build && \
+    echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+
+# stop alert bell
+RUN touch ~/.inputrc && \
+    echo "# quit beep sound" >> ~/.inputrc && \
+    echo "set bell-style none" >> ~/.inputrc
+
+# copy setup files
+COPY .tmux.conf /home/$USERNAME
+COPY requirements.txt $WS
+
+# install pip
+RUN pip install --upgrade pip && \
+    pip install --upgrade setuptools
+
+# install python libraries
+RUN pip3 install --no-cache-dir -r requirements.txt

@@ -1,5 +1,5 @@
 # basic libraries for ros2
-numpy
+numpy<2.0 # downgrade for rqt plugin
 scipy
 pandas
 opencv-python
