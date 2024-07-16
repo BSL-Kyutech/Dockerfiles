@@ -1,14 +1,16 @@
 version: '3'
 services: 
-  jupyterlab:
+  jupyter:
     build:
       context: .
       dockerfile: Dockerfile
       args:
         - UID=${UID} # user id とgroup idを設定する．whoami \ id <name> でわかる
         - GID=${GID}
-    #restart:
-    #network_mode: "host"
+        - USERNAME=${USERNAME}
+        - GROUPNAME=${GROUPNAME}
+        - PASSWORD=${PASSWORD}
+        - PORT=${PORT}
     tty: true
     #deploy:
       #resources:
@@ -18,19 +20,19 @@ services:
              #count: 1
              #capabilities: [gpu]
     ports:  # host id : container id
-      - "8888:8888"
+      - "${PORT}:${PORT}"
     environment:
       - DISPLAY=${DISPLAY}
     volumes:
-      - /home/$USERNAME:/home/user
-      - ./src:/home/user/jupyter_ws/src
+      #- /home/$USERNAME:/home/$USERNAME # for sharing of home data
+      - ./src:/home/$USERNAME/dev_ws/src
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     entrypoint: >
         jupyter-lab
         --ip 0.0.0.0
         --no-browser
         --allow-root
-        --port=8888
-        --NotebookApp.token='hoge'
-        --notebook-dir=/home/user/jupyter_ws
+        --port=$PORT
+        --NotebookApp.token='$PASSWORD'
+        --notebook-dir=/home/$USERNAME/dev_ws
     

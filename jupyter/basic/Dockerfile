@@ -18,19 +18,15 @@ RUN apt-get install git python3.9 python3-pip vim curl -y
 RUN apt-get install x11-apps -y
 
 # add user and group
-ARG USERNAME=user
-ARG GROUPNAME=user
-ARG UID=1000
-ARG GID=1000
+ARG UID GID USERNAME GROUPNAME PASSWORD PORT
 RUN groupadd -g $GID $GROUPNAME
 RUN useradd -m -g $UID -g $GID $USERNAME
 # make workspace
 USER root
-ARG WS=/home/$USERNAME/jupyter_ws
+ARG WS=/home/$USERNAME/dev_ws
 WORKDIR $WS
 
 # copy config files in home directory
-COPY .netrc /home/$USERNAME
 COPY requirements.txt $WS
 
 # install python libraries
