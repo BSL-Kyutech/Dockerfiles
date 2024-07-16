@@ -1,4 +1,4 @@
-# dockerとdocker-composeのインストール方法
+# 環境構築
 
 ## dockerのインストール
 
@@ -17,28 +17,24 @@
     $ sudo apt-get update
     $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-## docker-composeのインストール
-
-    $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    $ sudo chmod +x /usr/local/bin/docker-compose
 
 # 基本操作
 
 ### イメージ作成
 
-    $ sudo docker-compose build
+    $ sudo docker compose build
 
 ### コンテナ作成&バックグラウンド起動
 
-    $ sudo docker-compose up -d
+    $ sudo docker compose up -d
 
 ### コンテナに入る
 
-    $ sudo docker-compose exec ros bash
+    $ sudo docker compose exec ros bash
 
 ### イメージ作成&コンテナ作成&バックグラウンド起動
 
-    $ sudo docker-compose up -d --build
+    $ sudo docker compose up -d --build
 
 
 # 開発の流れ
@@ -54,21 +50,20 @@
     $ git clone git@github.com:BSL-Kyutech/Dockerfiles.git
 
 ### 3. 必要なファイルをコピー
-
-    $ cp -a Dockerfiles/ros2_foxy_without_gpu/. [project]
-    (ros2_foxy_without_gpuを使う場合の例)
-
+    # ros/humble_gpu の環境を使う場合の例
+    $ cp -a Dockerfiles/ros/humble_cpu/. <project>/
+ 
+    # このあとはもう使わないので削除してOK
     $ rm -rf Dockerfiles
-    このあとはもう使わないので削除してOK
 
 ### 4. イメージ作成, コンテナ作成, コンテナのバックグラウンド起動
-    $ sudo docker-compose up -d --build
+    $ sudo docker compose up -d --build
 
     30分~1時間かかる
 
 ### 5. コンテナ内でros2 pkg create
 
-    $ sudo docker-compose exec ros bash
+    $ sudo docker compose exec ros bash
     $ cd src
     $ ros2 pkg create --build-type ament_python [mypackage]
 
@@ -90,7 +85,7 @@
 
     実装が終わったらコンテナに入ってcolcon build
 
-    $ sudo docker-compose exec ros bash
+    $ sudo docker compose exec ros bash
     $ colcon build
 
 ### 8. 動かす
