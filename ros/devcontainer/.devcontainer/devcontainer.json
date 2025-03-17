@@ -1,0 +1,6 @@
+{
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "ros",
+  "workspaceFolder": "/home/user/dev_ws",
+  "remoteUser": "user"
+}

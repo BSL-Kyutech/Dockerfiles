@@ -1,0 +1,20 @@
+version: '3'
+services:
+  ros:
+    build:
+      context: .
+      args:
+        - UID=${UID}
+        - GID=${GID}
+        - USERNAME=${USERNAME}
+        - GROUPNAME=${GROUPNAME}
+        - PASSWORD=${PASSWORD}
+    network_mode: "host"
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./dev_ws:/home/${USERNAME}/dev_ws
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    command: >
+      bash -c "source /opt/ros/humble/setup.sh && colcon build && exec bash"
