@@ -3,3 +3,4 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 source /opt/ros/humble/setup.bash
+eval "$(starship init bash)"
