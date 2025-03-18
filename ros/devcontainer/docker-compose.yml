@@ -16,5 +16,3 @@ services:
     volumes:
       - ./src:/home/${USERNAME}/dev_ws/src:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    command: >
-      bash -c "source /opt/ros/humble/setup.sh && colcon build && exec bash"
