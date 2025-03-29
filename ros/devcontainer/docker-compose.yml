@@ -36,6 +36,17 @@ services:
         colcon build  --packages-select sample_publisher  # パッケージをビルド
         source ~/dev_ws/install/setup.bash  # インストールされた環境をソース
         ros2 run sample_publisher talker
+  micro-ROS-Agent:
+    container_name: micro-ros-agent
+    image: microros/micro-ros-agent:humble
+    privileged: true
+    network_mode: host
+    volumes:
+      - /dev:/dev
+    stdin_open: true
+    tty: true
+    command: serial --dev /dev/ttyACM0 -b 115200
+  # シリアルポートを指定してエージェントを起動
   # ros2_subscriber:
   #   <<: *base
   #   container_name: ros2_subscriber
