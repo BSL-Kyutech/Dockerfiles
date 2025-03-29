@@ -21,20 +21,32 @@ x-base: &base
 services:
   dev:
     <<: *base
-    container_name: ros2_dev
-  sample_pub:
+    container_name: ros2_develop_container
+    init: true
+  pub:
     <<: *base
-    container_name: ros2_pub
+    container_name: sample_publisher
     entrypoint:
       - /bin/bash # エントリーポイントを /bin/bash に設定
       - -c
       - |
-        source /opt/ros/humble/setup.bash  # ROS環境をソース
         cd ~/dev_ws  # ワークスペースに移動
         colcon build  --packages-select sample_publisher  # パッケージをビルド
-        source ~/dev_ws/install/setup.bash  # インストールされた環境をソース
         ros2 run sample_publisher talker
-  micro-ros-agent-serial:
+
+  # シリアルポートを指定してエージェントを起動
+  sub:
+    <<: *base
+    container_name: sample_subscriber
+    init: true
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        cd ~/dev_ws  # ワークスペースに移動
+        colcon build  --packages-select sample_subscriber  # パッケージをビルド
+        ros2 run sample_subscriber listener
+  serial:
     container_name: micro-ros-agent-serial
     image: microros/micro-ros-agent:humble
     privileged: true
@@ -45,7 +57,7 @@ services:
     stdin_open: true
     tty: true
     command: serial --dev /dev/ttyACM0 -b 115200
-  micro-ros-agent-udp:
+  udp:
     container_name: micro-ros-agent-udp
     image: microros/micro-ros-agent:humble
     command: udp4 -p 8888
@@ -54,17 +66,3 @@ services:
     network_mode: host
     stdin_open: true
     tty: true
-
-  # シリアルポートを指定してエージェントを起動
-  sample_sub:
-    <<: *base
-    container_name: ros2_sub
-    entrypoint:
-      - /bin/bash
-      - -c
-      - |
-        source /opt/ros/humble/setup.bash  # ROS環境をソース
-        cd ~/dev_ws  # ワークスペースに移動
-        colcon build  --packages-select sample_subscriber  # パッケージをビルド
-        source ~/dev_ws/install/setup.bash  # インストールされた環境をソース
-        ros2 run sample_subscriber listener

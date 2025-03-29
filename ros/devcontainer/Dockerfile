@@ -43,10 +43,10 @@ RUN mkdir -p /home/$USERNAME/dev_ws/src \
     && if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then sudo rosdep init; fi \
     && rosdep update \
     && rosdep install --from-paths /home/$USERNAME/dev_ws/src --rosdistro humble -i -y \
-    && echo "source ./install/setup.bash" >> ~/.bashrc 
+    && echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc 
 
 # bash_aliasesをbashrcに追加
-COPY bash_aliases ~/.bash_aliases
+COPY bash_aliases /home/$USERNAME/.bash_aliases
 RUN echo 'source ~/.bash_aliases' >> ~/.bashrc
 
 # シェルを見やすくするためにstarshipのインストール.いらなかったらコメントアウト
@@ -56,4 +56,4 @@ RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 COPY requirements.txt /home/$USERNAME
 RUN pip install --upgrade pip && \
     pip install --upgrade 'setuptools==58.0.0' && \
-    pip3 install --no-cache-dir -r ~/requirements.txt
+    pip3 install --no-cache-dir -r /home/$USERNAME/requirements.txt
