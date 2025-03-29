@@ -55,5 +55,5 @@ RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
 # requirements.txtをコピーしてpipでインストール
 COPY requirements.txt /home/$USERNAME
 RUN pip install --upgrade pip && \
-    pip install --upgrade setuptools && \
+    pip install --upgrade 'setuptools==58.0.0' && \
     pip3 install --no-cache-dir -r ~/requirements.txt
