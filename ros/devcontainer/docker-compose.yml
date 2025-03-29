@@ -1,7 +1,7 @@
 # https://docs.ros.org/en/iron/How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html
 
-version: '3'
-ros2_development_container: &base
+version: "3"
+x-base: &base
   build:
     context: .
     dockerfile: Dockerfile
@@ -32,8 +32,10 @@ services:
       - -c
       - |
         source /opt/ros/humble/setup.bash  # ROS環境をソース
-        source install/setup.bash  # インストールされた環境をソース
-        ros2 launch publisher launch.py  # publisher ノードを起動、結果は図２のようになる
+        cd ~/dev_ws  # ワークスペースに移動
+        colcon build  --packages-select sample_publisher  # パッケージをビルド
+        source ~/dev_ws/install/setup.bash  # インストールされた環境をソース
+        ros2 run sample_publisher talker
   # ros2_subscriber:
   #   <<: *base
   #   container_name: ros2_subscriber
