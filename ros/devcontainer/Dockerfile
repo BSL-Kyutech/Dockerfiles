@@ -10,12 +10,13 @@ ENV TZ=Asia/Tokyo
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     locales tzdata sudo x11-apps curl vim\
+    python3-pip \
     python3-colcon-argcomplete \
     ros-humble-ros-base \
     ros-humble-rqt* \
     ros-humble-rviz2 && \
-    curl -fsSL https://starship.rs/install.sh | sh -s -- --yes && \
     rm -rf /var/lib/apt/lists/* 
+RUN curl -fsSL https://starship.rs/install.sh | sh -s -- --yes 
 
 # タイムゾーンの設定
 RUN locale-gen en_US en_US.UTF-8 && \
@@ -45,8 +46,14 @@ RUN mkdir -p /home/$USERNAME/dev_ws/src \
     && echo "source ./install/setup.bash" >> ~/.bashrc 
 
 # bash_aliasesをbashrcに追加
-COPY bash_aliases /home/$USERNAME/.bash_aliases
+COPY bash_aliases ~/.bash_aliases
 RUN echo 'source ~/.bash_aliases' >> ~/.bashrc
 
 # シェルを見やすくするためにstarshipのインストール.いらなかったらコメントアウト
 RUN echo 'eval "$(starship init bash)"' >> ~/.bashrc
+
+# requirements.txtをコピーしてpipでインストール
+COPY requirements.txt /home/$USERNAME
+RUN pip install --upgrade pip && \
+    pip install --upgrade setuptools && \
+    pip3 install --no-cache-dir -r ~/requirements.txt
