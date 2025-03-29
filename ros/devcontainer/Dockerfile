@@ -9,7 +9,7 @@ ENV LANG=en_US.UTF-8
 ENV TZ=Asia/Tokyo
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    locales tzdata sudo x11-apps curl\
+    locales tzdata sudo x11-apps curl vim\
     python3-colcon-argcomplete \
     ros-humble-ros-base \
     ros-humble-rqt* \
@@ -42,8 +42,7 @@ RUN mkdir -p /home/$USERNAME/dev_ws/src \
     && if [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]; then sudo rosdep init; fi \
     && rosdep update \
     && rosdep install --from-paths /home/$USERNAME/dev_ws/src --rosdistro humble -i -y \
-    && echo "source ./install/setup.bash" >> ~/.bashrc \
-    && echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+    && echo "source ./install/setup.bash" >> ~/.bashrc 
 
 # bash_aliasesをbashrcに追加
 COPY bash_aliases /home/$USERNAME/.bash_aliases

@@ -1,18 +1,46 @@
+# https://docs.ros.org/en/iron/How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html
+
 version: '3'
+ros2_development_container: &base
+  build:
+    context: .
+    dockerfile: Dockerfile
+    args:
+      - UID=${UID}
+      - GID=${GID}
+      - USERNAME=${USERNAME}
+      - GROUPNAME=${GROUPNAME}
+      - PASSWORD=${PASSWORD}
+  ipc: host
+  tty: true
+  network_mode: host
+  privileged: true
+  environment:
+    - DISPLAY=${DISPLAY}
+  volumes:
+    - ./src:/home/${USERNAME}/dev_ws/src:rw
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
 services:
-  ros:
-    build:
-      context: .
-      args:
-        - UID=${UID}
-        - GID=${GID}
-        - USERNAME=${USERNAME}
-        - GROUPNAME=${GROUPNAME}
-        - PASSWORD=${PASSWORD}
-    network_mode: "host"
-    tty: true
-    environment:
-      - DISPLAY=${DISPLAY}
-    volumes:
-      - ./src:/home/${USERNAME}/dev_ws/src:rw
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  dev:
+    <<: *base
+    container_name: ros2_dev
+  ros2_publisher:
+    <<: *base
+    container_name: ros2_publisher
+    entrypoint:
+      - /bin/bash # エントリーポイントを /bin/bash に設定
+      - -c
+      - |
+        source /opt/ros/humble/setup.bash  # ROS環境をソース
+        source install/setup.bash  # インストールされた環境をソース
+        ros2 launch publisher launch.py  # publisher ノードを起動、結果は図２のようになる
+  # ros2_subscriber:
+  #   <<: *base
+  #   container_name: ros2_subscriber
+  #   entrypoint:
+  #     - /bin/bash
+  #     - -c
+  #     - |
+  #       source /opt/ros/humble/setup.bash  # ROS環境をソース
+  #       source install/setup.bash  # インストールされた環境をソース
+  #       ros2 launch subscriber launch.py  # publisher ノードを起動、結果は図２のようになる
