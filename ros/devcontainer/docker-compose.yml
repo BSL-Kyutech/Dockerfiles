@@ -1,6 +1,4 @@
 # https://docs.ros.org/en/iron/How-To-Guides/Setup-ROS-2-with-VSCode-and-Docker-Container.html
-
-version: "3"
 x-base: &base
   build:
     context: .
@@ -24,9 +22,9 @@ services:
   dev:
     <<: *base
     container_name: ros2_dev
-  ros2_publisher:
+  sample_pub:
     <<: *base
-    container_name: ros2_publisher
+    container_name: ros2_pub
     entrypoint:
       - /bin/bash # エントリーポイントを /bin/bash に設定
       - -c
@@ -36,20 +34,31 @@ services:
         colcon build  --packages-select sample_publisher  # パッケージをビルド
         source ~/dev_ws/install/setup.bash  # インストールされた環境をソース
         ros2 run sample_publisher talker
-  micro-ROS-Agent:
-    container_name: micro-ros-agent
+  micro-ros-agent-serial:
+    container_name: micro-ros-agent-serial
     image: microros/micro-ros-agent:humble
     privileged: true
     network_mode: host
+    init: true
     volumes:
       - /dev:/dev
     stdin_open: true
     tty: true
     command: serial --dev /dev/ttyACM0 -b 115200
+  micro-ros-agent-udp:
+    container_name: micro-ros-agent-udp
+    image: microros/micro-ros-agent:humble
+    command: udp4 -p 8888
+    init: true
+    privileged: true
+    network_mode: host
+    stdin_open: true
+    tty: true
+
   # シリアルポートを指定してエージェントを起動
-  ros2_subscriber:
+  sample_sub:
     <<: *base
-    container_name: ros2_subscriber
+    container_name: ros2_sub
     entrypoint:
       - /bin/bash
       - -c
