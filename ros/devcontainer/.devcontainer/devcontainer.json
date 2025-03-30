@@ -2,5 +2,6 @@
   "dockerComposeFile": "../docker-compose.yml",
   "service": "dev",
   "workspaceFolder": "/home/user/dev_ws/src",
-  "remoteUser": "user"
+  "remoteUser": "user",
+  "overrideCommand": true
 }
