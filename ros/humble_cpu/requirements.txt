@@ -12,14 +12,15 @@ pyQt5
 
 # for machine learning
 # 2022/12/11 version torch for torch 1.13.0 and cuda 11.7
-#torch
-#torchvision
-#torchaudio
-#tqdm
+torch
+torchvision
+torchaudio
+tqdm
 
 # sklearn
-#scikit-learn
+scikit-learn
 
 # optuna
 #optuna
 #cmaes
+
