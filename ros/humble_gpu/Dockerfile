@@ -49,8 +49,9 @@ COPY .tmux.conf /home/$USERNAME
 COPY requirements.txt $WS
 
 # install pip
-RUN pip install --upgrade pip && \
-    pip install --upgrade setuptools
+RUN pip install --upgrade pip #&& \
+RUN pip install setuptools<=58.2
+#    pip install --upgrade setuptools==58.2
 
 # install python libraries
 RUN pip3 install --no-cache-dir -r requirements.txt

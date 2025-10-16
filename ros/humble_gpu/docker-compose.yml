@@ -6,20 +6,23 @@ services:
       args:
         - UID=${UID}
         - GID=${GID}
-        - USERNAME=${USERNAME}
-        - GROUPNAME=${GROUPNAME}
+        - USERNAME=${D_USERNAME}
+        - GROUPNAME=${D_GROUPNAME}
         - PASSWORD=${PASSWORD}
     network_mode: "host"
     tty: true
     deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['0']
-              capabilities: [gpu]
+      #resources:
+      # reservations:
+      #   devices:
+      #     - driver: nvidia
+      #       device_ids: ['0']
+      #       capabilities: [gpu]
+
     environment:
       - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID}
     volumes:
-      - ./dev_ws:/home/${USERNAME}/dev_ws
+      - ./dev_ws:/home/${D_USERNAME}/dev_ws
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/home/${D_USERNAME}/.Xauthority
